@@ -2,11 +2,12 @@ package grammar;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class Array {
     public static void main(String[] args) throws Exception {
         Array_MaxMin();
-        Array_Sort();
+        Array_Sort();        
     }
 
     public static void Array_MaxMin(){
@@ -63,6 +64,22 @@ public class Array {
         for(char i:charArr){
             System.err.println(i);
         }
+
+        // 다중 조건 
+        int[][] arr2 = new int[][]{{5,40},{3,50},{1,30},{4,20},{2,10},{6,40},{6,50},{6,10},{6,20},{6,30}};
+
+        Arrays.sort(arr2, new Comparator<int[]>() { 
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0]!=o2[0] ? o1[0]-o2[0] : o1[1]-o2[1]; // 첫번째 기준 오름차순 > 두번째 기준 오름차순  : {1,30}{2,10}{3,50}{4,20}{5,40}{6,10}{6,20}{6,30}{6,40}{6,50}
+                //return o1[0]!=o2[0] ? o1[0]-o2[0] : o2[1]-o1[1]; // 첫번째 기준 오름차순 > 두번째 기준 내림차순  : {1,30}{2,10}{3,50}{4,20}{5,40}{6,50}{6,40}{6,30}{6,20}{6,10}
+            }
+        });
+
+        Arrays.sort(arr2 , (o1,o2) -> {
+			return o1[0]!=o2[0] ? o1[0]-o2[0] : o1[1]-o2[1]; // 첫번째 기준 오름차순 > 두번째 기준 오름차순  : {1,30}{2,10}{3,50}{4,20}{5,40}{6,10}{6,20}{6,30}{6,40}{6,50}
+                //return o1[0]!=o2[0] ? o1[0]-o2[0] : o2[1]-o1[1]; // 첫번째 기준 오름차순 > 두번째 기준 내림차순  : {1,30}{2,10}{3,50}{4,20}{5,40}{6,50}{6,40}{6,30}{6,20}{6,10}
+		});
     }
 
 }

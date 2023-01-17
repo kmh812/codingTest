@@ -14,6 +14,8 @@ public class Convert_Int {
         IntToDouble();      
         IntArrToIntList();
         IntListToIntArr();
+        IntArrToIntegerArr();
+        IntegerArrToIntArr();
     }
 
     public static void IntToString(){
@@ -79,5 +81,29 @@ public class Convert_Int {
             System.err.println(i);
         }
     }
+
+    public static void IntArrToIntegerArr(){
+        System.err.println("IntArrToIntegerArr");
+        int[] topping = {1,2,1,3,1,4,1,2};
+        
+        Integer[] temp1ArrInteger = Arrays.stream(topping).boxed().toArray(Integer[]::new); 
+		
+        for(int i:temp1ArrInteger){
+            System.err.println(i);
+        }
+    }
+
+    public static void IntegerArrToIntArr(){
+        System.err.println("IntegerArrToIntArr");
+        Integer[] topping = {1,2,1,3,1,4,1,2};
+        
+        int[] temp1ArrInteger = Arrays.stream(topping).mapToInt(Integer::intValue).toArray();
+		
+        for(int i:temp1ArrInteger){
+            System.err.println(i);
+        }
+    }
+    
+    
 }
 

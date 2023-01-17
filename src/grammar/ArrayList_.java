@@ -12,6 +12,7 @@ public class ArrayList_ {
     public static void main(String[] args) throws Exception {
         List_MaxMin();
         List_Sort();
+        //ListToArr();
     }
 
     public static void List_MaxMin(){
@@ -28,19 +29,22 @@ public class ArrayList_ {
         System.err.println("!!!! List_Sort !!!!");
         List<Integer> list = Arrays.asList(5,123,1,23);
 
-        List<Integer> temp = list.stream().sorted(Collections.reverseOrder()).collect(Collectors.toList());
+        List<Integer> temp = list.stream()
+            .sorted(Collections.reverseOrder())
+            .collect(Collectors.toList());
 
         for(int i:temp){
             System.err.println(i);
         }
 
-        temp = list.stream().sorted().collect(Collectors.toList());
+        temp = list.stream()
+            .sorted()
+            .collect(Collectors.toList());
 
         for(int i:temp){
             System.err.println(i);
         }
 
-        
         //단일 map 정렬
         HashMap<Integer,String> map = new HashMap<>();
         map.put(1, "aaaa");
@@ -93,7 +97,7 @@ public class ArrayList_ {
                 )
                 .collect(Collectors.toList());
         
-        System.err.println("tempList = "+tempList);
+        System.err.println("tempList 1= "+tempList);
 
         tempList = 
             mapList2.stream()
@@ -108,8 +112,16 @@ public class ArrayList_ {
                  )
                 .collect(Collectors.toList());
         
-        System.err.println("tempList = "+tempList);
+        System.err.println("tempList 2= "+tempList);
+
+
+        tempList.sort((o1, o2) -> {
+            if(o1.get(1).equals(o2.get(1))){
+                return o1.get(3).compareTo(o2.get(3));
+            }
+            return o1.get(1).compareTo(o2.get(1));
+        });
+
+        System.err.println("tempList 3= "+tempList);
     }
-
-
 }
