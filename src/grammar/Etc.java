@@ -11,12 +11,15 @@ public class Etc {
     }
 
     public static void BigInteger(){
-        String tmp1 ="101";
+        String tmp1 ="111111";
 		String tmp2 ="11";
 		
         //String 2진수 변환
 		BigInteger A_binary = new BigInteger(tmp1, 2);
 		BigInteger B_binary = new BigInteger(tmp2, 2);
+
+        System.err.println("A_binary = "+A_binary);
+        System.err.println("B_binary = "+B_binary);
 
         //2진수 더하기
         BigInteger sum = A_binary.add(B_binary);
@@ -26,7 +29,7 @@ public class Etc {
 		String sum_binary = sum.toString(2);
 		System.err.println(sum_binary);
 
-        int a = 25;
+        int a = 111111;
 
         System.err.println("10진수 -> 2진수");
         System.err.println(Integer.toBinaryString(a));
