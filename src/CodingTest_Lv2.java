@@ -40,8 +40,18 @@ public class CodingTest_Lv2 {
 		// lv2_31();
 		// lv2_32();
 		// lv2_33();
-		lv2_34();
-		lv2_35();
+		// lv2_34();
+		// lv2_35();
+		// lv2_36();
+		// lv2_37();
+		// lv2_38();
+		// lv2_39();
+		// lv2_40();
+		// lv2_41();
+		// lv2_42();
+		lv2_43();
+		lv2_44();
+		lv2_45();
     }
 
 	public static void lv2_1() { //택배 배달과 수거하기
@@ -1643,6 +1653,7 @@ public class CodingTest_Lv2 {
 	}
 
 	public static void lv2_34() { //삼각 달팽이
+		System.err.println("!!!!!!!!!!!!! lv2_34 !!!!!!!!!!!!!!!");
 	// 	int n=4;
 	// 	int[][] result = new int[n][n];
 	// 	int cnt=1;
@@ -1696,43 +1707,55 @@ public class CodingTest_Lv2 {
 	static int lv2_35_n; // 원소 개수
     static String[] lv2_35_numbers; // 순열을 저장할 배열
     static boolean[] lv2_35_isSelected; // 뽑았는지 여부를 저장할 배열
-	static String[] lv2_35_temp = {"+","-","*"};
+	static String[] lv2_35_temp = {"a","b","c"};
+	static List<String> expressionList = new ArrayList<>();
+	static List<String> expressionTemp = new ArrayList<>();
+	static long lv2_35_result=0;
 
 	public static void lv2_35() { //수식 최대화
+		System.err.println("!!!!!!!!!!!!! lv2_35 !!!!!!!!!!!!!!!");
 		String expression = "100-200*300-500+20";
 
 		char[] expressionArr = expression.toCharArray();
-		List<String> newStr = new ArrayList<>();
 		StringBuffer sb = new StringBuffer();
 		for(int i=0; i<expressionArr.length; i++){
+			char temp = ' ';
 			if(expressionArr[i]=='-' || expressionArr[i]=='+' || expressionArr[i]=='*'){
-				newStr.add(sb.toString());
-				newStr.add(Character.toString(expressionArr[i]));
+				switch(expressionArr[i]){
+					case '+': temp = 'a'; break;
+					case '*': temp = 'b'; break;
+					case '-': temp = 'c'; break;
+				}
+				expressionList.add(sb.toString());
+				expressionList.add(Character.toString(temp));
 				sb = new StringBuffer();
 			}else{
 				sb.append(expressionArr[i]);
 				if(i == expressionArr.length-1){
-					newStr.add(sb.toString());
+					expressionList.add(sb.toString());
 					sb = new StringBuffer();
 				}
 			}
 		}
 
-		String[] expressionArr2 = newStr.stream().toArray(String[]::new);
+		//String[] expressionArr2 = newStr.stream().toArray(String[]::new);
 		
 		lv2_35_n = 3;
         lv2_35_numbers = new String[lv2_35_n];
         lv2_35_isSelected = new boolean[lv2_35_n+1];
-        lv2_35_1(0,expressionArr2);
+        lv2_35_1(0);
+
+		System.err.println("lv2_35_result = "+lv2_35_result);
 	}
 
-	public static void lv2_35_1(int k,String[] expression) {
+	public static void lv2_35_1(int k) {
         
         if(k == lv2_35_n) {
+			expressionTemp = expressionList;
 			for(String s:lv2_35_numbers){
-				lv2_35_2(s,expression);
+				lv2_35_2(s);
 			}
-			System.err.println();
+			//System.err.println();
             return;
         }
 
@@ -1742,30 +1765,454 @@ public class CodingTest_Lv2 {
             // 중복이 아니라면
             lv2_35_numbers[k] = lv2_35_temp[i];
             lv2_35_isSelected[i] = true;
-            lv2_35_1(k + 1,expression); // 다음 요소 뽑기
+            lv2_35_1(k + 1); // 다음 요소 뽑기
             lv2_35_isSelected[i] = false;
         }
     }
 
-	public static void lv2_35_2(String s, String[] expression) {
-		System.err.println(s);
-		for(int i=0; i<expression.length; i++){
-			if(expression[i].equals(s)){
-				System.err.println(expression[i-1]+" "+expression[i+1]);
-				int temp1 = Integer.parseInt(expression[i-1]);
-				int temp2 = Integer.parseInt(expression[i+1]);
-				// expression = Arrays.copyOfRange(expression, i+1, expression.length);
-				//
+	public static void lv2_35_2(String s) {
+		// System.err.println(s);
+		
+		// for(int j=0; j<expressionTemp.size(); j++){
+		// 	System.err.print(expressionTemp.get(j)+" ");
+		// }
+		// System.err.println("");
 
-				expression = new String[expression.length-3];
+		for(int i=0; i<expressionTemp.size(); i++){
+			if(expressionTemp.get(i).equals(s)){
+				int temp1 = Integer.parseInt(expressionTemp.get(i-1));
+				int temp2 = Integer.parseInt(expressionTemp.get(i+1));
+				int temp3=0; 
+				switch(s){
+					case "a": temp3 = temp1 + temp2; break;
+					case "b": temp3 = temp1 * temp2; break;
+					case "c": temp3 = temp1 - temp2; break;
+				}
 
-				
-				
+				//System.err.println("result = "+temp1+" "+temp2+" "+temp3);
 
-				if(Arrays.asList(expression).contains(s)){ 
-					lv2_35_2(s,expression);
+				List<String> expressiontemp1 = new ArrayList<>();
+
+				for(int j=0; j<i-1; j++){
+					expressiontemp1.add(expressionTemp.get(j));
+				}
+				expressiontemp1.add(Integer.toString(temp3));
+
+				if(i < expressionTemp.size()-2){
+					for(int j=i+2; j<expressionTemp.size(); j++){
+						expressiontemp1.add(expressionTemp.get(j));
+					}
+				}
+
+				expressionTemp =  expressiontemp1;
+				//System.err.println("expressionTemp = "+expressionTemp);
+				if(expressionTemp.size()==1){
+					long resultLong = Integer.parseInt(expressionTemp.get(0));
+					resultLong = Math.abs(resultLong);
+
+					if(lv2_35_result < resultLong){
+						lv2_35_result = resultLong;
+					}
+				}
+
+				if(expressionTemp.contains(s)){ 
+					lv2_35_2(s);
 				}
 			}
 		}
+	}
+
+	public static void lv2_36() { //튜플
+		System.err.println("!!!!!!!!!!!!! lv2_36 !!!!!!!!!!!!!!!");
+		String s = "{{2},{2,1},{2,1,3},{2,1,3,4}}";
+		String reStr = s.replace("{", "").replace("}", "");
+
+		String[] strArr = reStr.split(",");
+
+		HashMap<String, Integer> map = new HashMap<>();
+
+		for(String temp:strArr){
+			if(!map.containsKey(temp)){
+				int count=0;
+				for(int i=0; i<strArr.length; i++){
+					if(temp.equals(strArr[i])){
+						count++;
+					}
+				}
+				map.put(temp, count);
+			}	
+		}
+
+		System.err.println(map);
+
+		List<HashMap.Entry<String, Integer>> entrys = 
+			map.entrySet().stream()
+				.sorted(Collections.reverseOrder(HashMap.Entry.comparingByValue()))
+				.collect(Collectors.toList());
+		
+		int[] resutl = new int [entrys.size()];
+		int count=0;
+		for(HashMap.Entry<String, Integer> enrty:entrys){
+			//System.err.println(enrty.getKey()+" "+enrty.getValue());
+			resutl[count] = Integer.parseInt(enrty.getKey());
+			count++;
+		}
+
+		for(int i=0; i<resutl.length; i++){
+			System.err.println(resutl[i]);
+		}
+	}
+
+	public static void lv2_37() { //멀쩡한 사격형
+		System.err.println("!!!!!!!!!!!!! lv2_37 !!!!!!!!!!!!!!!");
+	}
+
+	public static void lv2_38() { //괄호 변환
+		System.err.println("!!!!!!!!!!!!! lv2_38 !!!!!!!!!!!!!!!");
+		String[] s = {"(()())()",")(","()))((()"};
+
+		for(String str:s){
+			System.err.println(str);
+		}
+
+	}
+
+	public static void lv2_39() { //문자열 압축
+		System.err.println("!!!!!!!!!!!!! lv2_39 !!!!!!!!!!!!!!!");
+		
+		String[] s = { 
+			        //"aabbaccc"
+		            //   ,"ababcdcdababcdcd"
+					//   ,"abcabcdede"
+					//   ,"abcabcabcabcdedededededede"
+					"xababcdcdababcdcd"
+					};
+
+		for(String str:s){
+			System.err.println("str = "+str);
+			lv2_39_1(str);
+		}
+
+	}
+
+	public static void lv2_39_1(String str) {
+		
+		// System.err.println(str.substring(0, 1));
+		// System.err.println(str.substring(1, 2));
+		// System.err.println(str.substring(2, 3));
+		// System.err.println(str.substring(3, 4));
+
+		// System.err.println(str.substring(0, 2));
+		// System.err.println(str.substring(2, 4));
+		// System.err.println(str.substring(4, 6));
+		// System.err.println(str.substring(6, 8));
+
+		int cnt=1;
+		int min =str.length();
+		while(cnt<=str.length()){
+			System.err.println("cnt = "+cnt);
+			//System.err.println(str.substring(0, cnt));
+
+			int cnt2=0;
+			int count=0;
+			String result="";
+			while(cnt2<=str.length()){
+				if(cnt+cnt2<=str.length()){
+					String str1 = str.substring(cnt2, cnt+cnt2);
+					//System.err.println("1 = "+cnt2+", "+(cnt+cnt2)+" = "+str1);
+					int cnt3=cnt2;
+					while(cnt3<=str.length()){
+						if(cnt+cnt3<=str.length()){
+							String str2 = str.substring(cnt3, cnt+cnt3);
+							//System.err.println("2 = "+cnt3+", "+(cnt+cnt3)+" = "+str.substring(cnt3, cnt+cnt3));
+							if(str2.equals(str1)){
+								count++;
+							}else{
+								cnt2=(cnt2+count)-1;
+								//System.err.println("count = "+count);
+								if(count>1){
+									result+=count+str1;
+								}else{
+									result+=str1;
+								}
+								count=0;
+								break;
+							}
+						}else{
+							String temp = str.substring(cnt3, str.length());
+							cnt2=(cnt2+count)-1;
+							if(count>1){
+								result+=count+str1;
+							}else{
+								result+=str1+temp;
+							}
+							//System.err.println("count = "+count);
+							count=0;
+							break;
+						}
+						cnt3+=cnt;
+					}
+				}
+				cnt2+=cnt;
+			}
+			cnt++;
+			System.err.println("result = "+result);
+			if(min > result.length()){
+				min = result.length();
+			}
+		}
+
+		System.err.println("min = "+min);
+	}
+
+	public static void lv2_40() { //방문길이
+		System.err.println("!!!!!!!!!!!!! lv2_40 !!!!!!!!!!!!!!!");
+		//String dirs = "ULURRDLLU";
+		String dirs = "LULLLLLLU";
+
+		char[] charArr = dirs.toCharArray();
+		int x=0;
+		int y=0;
+		LinkedHashSet<String> set = new LinkedHashSet<>();
+		for(char c:charArr){
+			//System.err.println(c);
+
+			String tempX1 = Integer.toString(x);
+			String tempY1 = Integer.toString(y);
+			
+			int tempX = x;
+			int tempY = y;
+ 
+			if(c=='U'){
+				if(tempX >= -4 && tempX < 4 ){
+					x++;
+				}
+			}else if(c=='D'){
+				if(tempX >= -4 && tempX < 4 ){
+					x--;
+				}
+			}else if(c=='R'){
+				if(tempY >= -4 && tempY < 4 ){
+					y++;
+				}
+			}else if(c=='L'){
+				if(tempY >= -4 && tempY < 4 ){
+					y--;
+				}
+			}
+
+			String tempX2 = Integer.toString(x);
+			String tempY2 = Integer.toString(y);
+			if(!(tempX1+tempY1).equals(tempX2+tempY2)){
+				set.add(tempX1+tempY1+tempX2+tempY2);
+			}
+			//System.err.println(x+" "+y);
+		}
+
+		System.err.println("set ="+set);
+	}
+
+	public static void lv2_41() { //스킬트리
+		System.err.println("!!!!!!!!!!!!! lv2_41 !!!!!!!!!!!!!!!");
+
+		String skill ="CBD";
+
+		String[] still_trees={"BACDE"
+							 ,"CBADF"
+							 ,"AECB"
+							 ,"BDA"
+						};
+
+		char[] charArr = skill.toCharArray();
+		int count=0;
+		for(String s:still_trees){
+			char[] sArr = s.toCharArray();
+			int index=0;
+			boolean chk=true;
+			for(char c:charArr){
+				int tempIndex=0;
+				for(int i=0; i<sArr.length; i++){
+					if(c==sArr[i]){
+						//System.err.println("c = "+c+" i = "+i);
+						tempIndex = i;
+						break;
+					}
+				}
+				if(index <= tempIndex){
+					index = tempIndex;
+				}else{
+					chk = false;
+					break;
+				}
+			}
+
+			if(chk){
+				count++;
+			}			
+		}
+
+		System.err.println("count = "+count);
+	}
+
+	public static void lv2_42() { //후보키
+		System.err.println("!!!!!!!!!!!!! lv2_42 !!!!!!!!!!!!!!!");
+		String[][] str = {
+				 {"100","ryan","music","2"}
+				,{"200","apeach","math","2"}
+				,{"300","tube","computer","3"}
+				,{"400","con","computer","4"}
+				,{"500","muzi","music","3"}
+				,{"600","apeach","music","2"}};
+		
+		int start=0;
+		int index=1;
+		int resultCount=0;
+		for(String[] s:str){
+			
+			System.err.println("start = "+start+" index = "+index);
+			if(start+index > s.length){
+				break;
+			}
+			List<String> temp = lv2_42_1(str,start,index);
+			System.err.println("temp = "+temp);
+			boolean check= true;
+			for(String[] s2:str){
+				String strTemp="";
+				for(int i=start; i<start+index; i++){
+					strTemp+=s2[i];
+				}
+				System.err.println("strTemp = "+strTemp);
+				
+
+				int count=0;
+				for(String ss:temp){
+					if(strTemp.equals(ss)){
+						count++;
+					}
+				}
+
+				System.err.println("count = "+count);
+
+				if(count>1){
+					check = false;
+					break;
+				}
+			}
+
+			if(check){
+				start++;
+				resultCount++;
+			}else{
+				index++;
+			}
+		}
+
+		System.err.println("resultCount = "+resultCount);
+
+	}
+
+	public static List<String> lv2_42_1(String[][] strArr, int start, int index) {
+		List<String> temp = new ArrayList<>();
+		for(String[] s:strArr){
+			String str="";
+			for(int i=start; i<start+index; i++){
+				str+=s[i];
+			}
+			temp.add(str);
+		}
+
+		return temp;
+	}
+
+	public static void lv2_43() { //오픈채팅방
+		System.err.println("!!!!!!!!!!!!! lv2_43 !!!!!!!!!!!!!!!");
+		String[] recode = {"Enter uid1234 Muzi"
+						  ,"Enter uid4567 Prodo"
+						  ,"Leave uid1234"
+						  ,"Enter uid1234 Prodo"
+						  ,"Change uid4567 Ryan"
+						};
+		
+		HashMap<String,String> map = new HashMap<>();
+
+		for(String sArr:recode){
+			String[] temp = sArr.split(" ");
+
+			if(temp[0].equals("Enter")){
+				map.put(temp[1], temp[2]);
+			}else if(temp[0].equals("Change")){
+				map.put(temp[1], temp[2]);
+			}
+		}
+
+		System.err.println("map = "+map);
+
+		List<String> list = new ArrayList<>();
+		for(int i=0; i<recode.length; i++){
+			String[] temp = recode[i].split(" ");
+			String name = map.get(temp[1]);
+			String resultStr = "";
+			if(temp[0].equals("Enter")){
+				resultStr=name+"님이 들어왔습니다.";
+				list.add(resultStr);
+			}else if(temp[0].equals("Leave")){
+				resultStr=name+"님이 나갔습니다.";
+				list.add(resultStr);
+			}
+		}
+
+		System.err.println("list = "+list);
+
+		String[] str = list.stream().toArray(String[]::new);
+
+	}
+
+	public static void lv2_44() { //구명보트
+		System.err.println("!!!!!!!!!!!!! lv2_44 !!!!!!!!!!!!!!!");
+
+		int[] people ={70,50,80,50};
+		int limit = 100;
+
+		Arrays.sort(people);
+
+		int sum=0;
+		int count=0;
+		for(int i=0; i<people.length; i++){
+			if(sum==0){
+				count++;
+			}
+			
+			if(sum+people[i]<=limit){
+				sum=+people[i];
+			}else{
+				count++;
+				sum=0;
+			}
+			System.err.println(people[i]);
+		}
+
+		System.err.println("count = "+count);
+	}
+	
+	static int lv2_45_n; // 원소 개수
+    static int[] lv2_45_numbers; // 순열을 저장할 배열
+    static boolean[] lv2_45_isSelected; // 뽑았는지 여부를 저장할 배열
+    static int lv2_45_count; // 순열 개수
+	static char[]  numberArr;
+	static int lv2_45_max=0;
+
+	public static void lv2_45() { //큰수만들기
+		System.err.println("!!!!!!!!!!!!! lv2_45 !!!!!!!!!!!!!!!");
+		//String number = "1924";
+		// int k =2;
+		String number = "1231234";
+		int k = 3;
+		
+		char[] numberArr = number.toCharArray();
+		Arrays.sort(numberArr);
+		for(int i=0; i<k; i++){
+			number = number.replaceFirst(Character.toString(numberArr[i]), "");
+		}
+		System.err.println("number = "+number);
 	}
 }
